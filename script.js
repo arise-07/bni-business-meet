@@ -2,23 +2,24 @@
    EVENT CONFIG — edit everything here
    ============================================================ */
 const EVENT = {
-    date: "02 September 2026",
-    time: "09:30 AM Onwards",
-    targetISO: "2026-09-02T09:30:00+05:30",
+    date: "[ Event Date ]",
+    time: "7:30 AM Onwards",
+    targetISO: "", // set to e.g. "2026-MM-DDT07:30:00+05:30" once the date is confirmed
     city: "Nagercoil",
-    venue: "Sree Krishna Inn",
+    venue: "MDB Hall",
     address: "Nagercoil, Tamil Nadu",
     phone: "[ Contact number ]",
     register: "",
-    maps: "https://maps.google.com/?q=Sree+Krishna+Inn+Nagercoil",
+    maps: "https://maps.google.com/?q=MDB+Hall+Nagercoil",
     s1name: "[ Speaker 1 Name ]",
     s1topic: "[ Session topic ]",
     s2name: "[ Speaker 2 Name ]",
     s2topic: "[ Session topic ]",
-    t1: "[ 09:30 AM ]",
-    t2: "[ 11:30 AM ]",
-    t3: "[ 01:00 PM ]",
-    t4: "[ 03:30 PM ]"
+    t1: "7:30 – 9:30 AM",
+    t2: "10:00 – 11:00 AM",
+    t3: "11:30 AM – 1:00 PM",
+    t4: "2:00 – 3:00 PM",
+    t5: "3:00 – 4:30 PM"
 };
 
 document.querySelectorAll("[data-bind]").forEach(el => {
@@ -214,7 +215,7 @@ document.querySelectorAll(".rv").forEach(el => rv.observe(el));
     const fill = document.getElementById("arcFill");
     const markers = [...wrap.querySelectorAll(".arc-marker")];
     const cols = [...grid.querySelectorAll(".day-col")];
-    const thresholds = [0.02, 0.35, 0.62, 0.95]; // matches marker t-positions on the curve
+    const thresholds = [0.02, 0.25, 0.5, 0.75, 0.98]; // matches marker t-positions on the curve
 
     const len = fill.getTotalLength();
     fill.style.strokeDasharray = len;
@@ -239,6 +240,11 @@ document.querySelectorAll(".rv").forEach(el => rv.observe(el));
         mEl = document.getElementById("cdMins"), sEl = document.getElementById("cdSecs");
     if (!dEl) return;
     const target = new Date(EVENT.targetISO).getTime();
+    if (isNaN(target)) {
+        // no confirmed date yet — show a placeholder instead of a wrong countdown
+        dEl.textContent = hEl.textContent = mEl.textContent = sEl.textContent = "—";
+        return;
+    }
     const pad = n => String(n).padStart(2, "0");
     let timer = null;
 
